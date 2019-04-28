@@ -1,0 +1,14 @@
+version: "3.4"
+
+services: 
+  updater:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: prons/archivio-digitale-updater
+    volumes: 
+      - /app/node_modules
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports: 
+      - 3050:3050

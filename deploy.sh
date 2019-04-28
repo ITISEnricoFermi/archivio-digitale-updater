@@ -1,0 +1,1 @@
+docker service update $1:$2
