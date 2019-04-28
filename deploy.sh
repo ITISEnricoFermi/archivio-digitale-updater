@@ -1,1 +1,1 @@
-docker service update $1:$2
+docker service update --image $1:$2 $3

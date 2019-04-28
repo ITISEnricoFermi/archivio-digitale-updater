@@ -9,10 +9,12 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-    const service = req.body.repository.repo_name;
-    const tag = req.body.push_data.tag;
-    console.log(`NodeJS : ${service}:${tag}`);
-    exec(`sh deploy.sh ${service} ${tag}`, (err, stdout, stderr) => {
+    const project = req.body.project
+    const service = req.body.service
+    const image = req.body.image;
+    const tag = req.body.tag;
+    console.log(`NodeJS : ${project}_${service} => ${image}:${tag}`);
+    exec(`sh deploy.sh ${image} ${tag} ${project}_${service}`, (err, stdout, stderr) => {
         if (err) {
             console.error(err);
             return res.sendStatus(500);
