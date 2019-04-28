@@ -4,7 +4,7 @@ services:
   updater:
     build: 
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     image: prons/archivio-digitale-updater
     volumes: 
       - /app/node_modules

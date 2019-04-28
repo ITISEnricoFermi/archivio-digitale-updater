@@ -1,4 +1,5 @@
 FROM node:10.15.2-jessie
+ENV NODE_ENV=production
 
 #Add Tini
 ENV TINI_VERSION v0.18.0
@@ -19,6 +20,5 @@ RUN npm install && mkdir -p /app/node_modules && cp -a ./node_modules /app/
 
 WORKDIR /app
 COPY ./ ./
-ENV NODE_ENV=production
 EXPOSE 3050
 CMD [ "node", "." ]
