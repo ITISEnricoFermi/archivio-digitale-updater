@@ -3,6 +3,9 @@ const { check, validationResult } = require('express-validator/check');
 const app = express();
 const { exec } = require('child_process');
 
+
+const PROJECT = process.env.PROJECT || "archivio";
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -21,18 +24,17 @@ const checkErrors = (req, res, next) => {
 }
 
 app.post('/', [
-    check("project", "You must specifie a project name").isLength({ min: 3 }).toString(),
-    check("service", "You must specifie a service name").isLength({ min: 3 }).toString(),
-    check("image", "You must specifie an image name").isLength({ min: 3 }).toString(),
-    check("tag", "You must specifie a tag for the image").isLength({ min: 1 }).toString()
+    check("service", "You must specifie a service name (same name as in the compose file)").isLength({ min: 3 }).toString(),
+    check("tag", "You must specifie a tag for the image (image:tag)").isLength({ min: 1 }).toString()
 ], checkErrors, (req, res) => {
-    const { project, service, image, tag } = req.body;
+    const { service, tag } = req.body;
 
-    console.log(`NodeJS : ${project}_${service} => ${image}:${tag}`);
-    exec(`sh deploy.sh ${image} ${tag} ${project}_${service}`, (err, stdout, stderr) => {
-        
+    const image = getImageName(service);
+    console.log(`NodeJS : ${PROJECT}_${service} => ${image}:${tag}`);
+    exec(`sh deploy.sh ${image} ${tag} ${PROJECT}_${service}`, (err, stdout, stderr) => {
+
         const error = err || stderr
-        
+
         if (error) {
             console.error(error);
             return res.sendStatus(500);
@@ -43,6 +45,6 @@ app.post('/', [
     });
 });
 
-app.listen(3050, () => {
-    console.log('server started on port 3050');
+app.listen(80, () => {
+    console.log('server started on port 80');
 });
