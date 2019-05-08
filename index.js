@@ -3,6 +3,8 @@ const { check, validationResult } = require('express-validator/check');
 const app = express();
 const { exec } = require('child_process');
 
+const getImageName = require('./images')
+
 
 const PROJECT = process.env.PROJECT || "archivio";
 
