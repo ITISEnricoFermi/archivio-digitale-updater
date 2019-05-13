@@ -8,7 +8,8 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-stati
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 
-RUN apk add curl && \
+RUN apk add --update curl bash && \
+ rm -rf /var/cache/apk/* && \
  mkdir -p /tmp/download && \
  curl -L https://get.docker.com/builds/Linux/x86_64/docker-1.13.1.tgz | tar -xz -C /tmp/download && \
  rm -rf /tmp/download/docker/dockerd && \
@@ -21,4 +22,5 @@ RUN npm install && mkdir -p /app/node_modules && cp -a ./node_modules /app/
 WORKDIR /app
 COPY ./ ./
 EXPOSE 80
-CMD [ "node", "." ]
+
+CMD ["/bin/bash", "./startup.sh"]
