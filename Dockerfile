@@ -1,5 +1,6 @@
 FROM node:alpine
-ENV NODE_ENV=production
+ENV NODE_ENV=production \
+    PORT=80
 
 #Add Tini
 ENV TINI_VERSION v0.18.0
@@ -19,5 +20,5 @@ RUN npm install && mkdir -p /app/node_modules && cp -a ./node_modules /app/
 
 WORKDIR /app
 COPY ./ ./
-EXPOSE 3050
+EXPOSE 80
 CMD [ "node", "." ]
