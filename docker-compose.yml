@@ -4,11 +4,12 @@ services:
   updater:
     build: 
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     image: prons/archivio-digitale-updater
     volumes: 
-      - /app/node_modules
-      - .:/app
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment: 
+      - TOKEN=hello
+      - NODE_ENV=development
     ports: 
-      - 3050:3050
+      - 3050:80
